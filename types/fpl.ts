@@ -154,3 +154,34 @@ export interface FPLLiveElement {
 export interface FPLLiveGameweekResponse {
   elements: FPLLiveElement[];
 }
+
+export interface FPLPick {
+  element: number;
+  position: number;
+  multiplier: number;
+  is_captain: boolean;
+  is_vice_captain: boolean;
+}
+
+export interface FPLPicksResponse {
+  active_chip: string | null;
+  entry_history: {
+    points: number;
+    total_points: number;
+    rank: number;
+    overall_rank: number;
+    bank: number;
+    value: number;
+  };
+  picks: FPLPick[];
+}
+
+export interface FPLFixture {
+  id: number;
+  event: number | null; // Gameweek ID
+  finished: boolean;
+  team_h: number; // Home team ID
+  team_a: number; // Away team ID
+  team_h_difficulty: number; // FDR 1 to 5
+  team_a_difficulty: number; // FDR 1 to 5
+}

@@ -1,4 +1,9 @@
-import { FPLBootstrapStaticResponse, FPLLiveGameweekResponse } from '../types/fpl';
+import {
+  FPLBootstrapStaticResponse,
+  FPLLiveGameweekResponse,
+  FPLPicksResponse,
+  FPLFixture,
+} from '../types/fpl';
 
 const FPL_BASE_URL = 'https://fantasy.premierleague.com/api';
 
@@ -30,7 +35,6 @@ async function fplFetch<T>(endpoint: string): Promise<T> {
 export const fplService = {
   /**
    * Fetches core reference metadata (players, teams, gameweeks, FDR rules).
-   * Typically cached for several hours.
    */
   getBootstrapStatic: async (): Promise<FPLBootstrapStaticResponse> => {
     return fplFetch<FPLBootstrapStaticResponse>('/bootstrap-static/');
@@ -38,36 +42,22 @@ export const fplService = {
 
   /**
    * Fetches real-time stats, BPS, and provisional points for a specific Gameweek.
-   * Polled frequently during active match fixtures.
    */
   getLiveGameweek: async (gameweekId: number): Promise<FPLLiveGameweekResponse> => {
     return fplFetch<FPLLiveGameweekResponse>(`/event/${gameweekId}/live/`);
   },
+
+  /**
+   * Fetches the entire season fixture list with Fixture Difficulty Ratings (FDR).
+   */
+  getFixtures: async (): Promise<FPLFixture[]> => {
+    return fplFetch<FPLFixture[]>('/fixtures/');
+  },
+
+  /**
+   * Fetches the squad picks for a specific manager entry and gameweek.
+   */
+  getSquadPicks: async (teamId: number, gameweekId: number): Promise<FPLPicksResponse> => {
+    return fplFetch<FPLPicksResponse>(`/entry/${teamId}/event/${gameweekId}/picks/`);
+  },
 };
-
-// Add to types/fpl.ts:
-export interface FPLPick {
-  element: number;
-  position: number; // 1 to 15
-  multiplier: number; // 2 for Captain, 3 for Triple Captain, 0 for benched
-  is_captain: boolean;
-  is_vice_captain: boolean;
-}
-
-export interface FPLPicksResponse {
-  active_chip: string | null;
-  entry_history: {
-    points: number;
-    total_points: number;
-    rank: number;
-    overall_rank: number;
-    bank: number;
-    value: number;
-  };
-  picks: FPLPick[];
-}
-
-// Add to services/fplApi.ts inside fplService:
-getSquadPicks: async (teamId: number, gameweekId: number): Promise<FPLPicksResponse> => {
-  return fplFetch<FPLPicksResponse>(`/entry/${teamId}/event/${gameweekId}/picks/`);
-},
