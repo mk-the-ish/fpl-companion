@@ -3,6 +3,8 @@ import {
   FPLLiveGameweekResponse,
   FPLPicksResponse,
   FPLFixture,
+  FPLEntrySummaryResponse,
+  FPLLeagueStandingsResponse,
 } from '../types/fpl';
 
 const FPL_BASE_URL = 'https://fantasy.premierleague.com/api';
@@ -59,5 +61,19 @@ export const fplService = {
    */
   getSquadPicks: async (teamId: number, gameweekId: number): Promise<FPLPicksResponse> => {
     return fplFetch<FPLPicksResponse>(`/entry/${teamId}/event/${gameweekId}/picks/`);
+  },
+
+  /**
+   * Fetches an entry summary including all joined classic and h2h leagues.
+   */
+  getEntrySummary: async (teamId: number): Promise<FPLEntrySummaryResponse> => {
+    return fplFetch<FPLEntrySummaryResponse>(`/entry/${teamId}/`);
+  },
+
+  /**
+   * Fetches the classic mini-league standings table.
+   */
+  getLeagueStandings: async (leagueId: number): Promise<FPLLeagueStandingsResponse> => {
+    return fplFetch<FPLLeagueStandingsResponse>(`/leagues-classic/${leagueId}/standings/`);
   },
 };

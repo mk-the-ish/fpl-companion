@@ -185,3 +185,58 @@ export interface FPLFixture {
   team_h_difficulty: number; // FDR 1 to 5
   team_a_difficulty: number; // FDR 1 to 5
 }
+
+export interface FPLLeagueSummary {
+  id: number;
+  name: string;
+  short_name: string | null;
+  created: string;
+  closed: boolean;
+  rank: number | null;
+  max_entries: number | null;
+  league_type: string;
+  scoring: string;
+  admin_entry: number | null;
+  start_event: number;
+  entry_can_admin: boolean;
+  entry_can_invite: boolean;
+  entry_can_leave: boolean;
+  entry_rank: number;
+  entry_last_rank: number;
+}
+
+export interface FPLClassicStandingsResult {
+  id: number;
+  event_total: number;
+  player_name: string;
+  rank: number;
+  last_rank: number;
+  rank_sort: number;
+  total: number;
+  entry: number; // Team ID
+  entry_name: string;
+}
+
+export interface FPLLeagueStandingsResponse {
+  league: FPLLeagueSummary;
+  standings: {
+    has_next: boolean;
+    page: number;
+    results: FPLClassicStandingsResult[];
+  };
+}
+
+export interface FPLEntrySummaryResponse {
+  id: number;
+  name: string;
+  player_first_name: string;
+  player_last_name: string;
+  summary_overall_points: number;
+  summary_overall_rank: number;
+  summary_event_points: number;
+  summary_event_rank: number;
+  current_event: number;
+  leagues: {
+    classic: FPLLeagueSummary[];
+  };
+}
