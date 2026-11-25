@@ -3,16 +3,16 @@
     "name": "fpl-companion",
     "slug": "fpl-companion",
     "scheme": "yourappscheme",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#060913",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
@@ -25,7 +25,16 @@
     },
     "plugins": [
       "expo-router",
-      "expo-status-bar"
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#060913",
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 220
+        }
+      ],
+      "expo-status-bar",
+      "expo-font"
     ],
     "extra": {
       "router": {},

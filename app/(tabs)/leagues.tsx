@@ -5,23 +5,24 @@ import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useUserStore } from '../../stores/useUserStore';
 import { fplService } from '../../services/fplApi';
-import { FPLLeagueSummary } from '../../types/fpl';
+import { FPLLeagueResult } from '../../types/fpl';
 
 export default function LeaguesScreen() {
   const router = useRouter();
   const teamId = useUserStore((state) => state.teamId);
-  const [selectedLeague, setSelectedLeague] = useState<FPLLeagueSummary | null>(null);
+  const [selectedLeagueId, setSelectedLeagueId] = useState<number | null>(null);
 
   // 1. Fetch user's entry details and league memberships
-  const { data: entryData, isLoading: isEntryLoading } = useQuery({
-    queryKey: ['fpl-entry-summary', teamId],
-    queryFn: () => fplService.getEntrySummary(teamId!),
+  const { data: managerProfile, isLoading: isEntryLoading } = useQuery({
+    queryKey: ['manager-profile', teamId],
+    queryFn: () => fplService.getManagerProfile(teamId!),
     enabled: !!teamId,
   });
 
-  // 2. Fetch standings of the selected league
-  const activeLeagueId = selectedLeague?.id ?? entryData?.leagues?.classic?.[0]?.id;
+  const classicLeagues = managerProfile?.leagues?.classic ?? [];
+  const activeLeagueId = selectedLeagueId ?? classicLeagues[0]?.id;
 
+  // 2. Fetch standings of the selected league
   const { data: standingsData, isLoading: isStandingsLoading } = useQuery({
     queryKey: ['fpl-league-standings', activeLeagueId],
     queryFn: () => fplService.getLeagueStandings(activeLeagueId!),
@@ -54,7 +55,7 @@ export default function LeaguesScreen() {
     );
   }
 
-  const classicLeagues = entryData?.leagues?.classic ?? [];
+  const results = standingsData?.standings?.results ?? [];
 
   return (
     <ScrollView className="flex-1 bg-slate-950 px-4 py-3">
@@ -68,18 +69,12 @@ export default function LeaguesScreen() {
           return (
             <TouchableOpacity
               key={lg.id}
-              onPress={() => setSelectedLeague(lg)}
+              onPress={() => setSelectedLeagueId(lg.id)}
               className={`mr-2.5 rounded-xl border px-3.5 py-2.5 ${
-                isSelected
-                  ? 'border-emerald-400 bg-emerald-950/60'
-                  : 'border-slate-800 bg-slate-900'
+                isSelected ? 'border-emerald-400 bg-emerald-950/60' : 'border-slate-800 bg-slate-900'
               }`}
             >
-              <Text
-                className={`text-xs font-bold ${
-                  isSelected ? 'text-emerald-300' : 'text-slate-300'
-                }`}
-              >
+              <Text className={`text-xs font-bold ${isSelected ? 'text-emerald-300' : 'text-slate-300'}`}>
                 {lg.name}
               </Text>
               <Text className="mt-0.5 text-[10px] text-slate-500">
@@ -98,7 +93,7 @@ export default function LeaguesScreen() {
               {standingsData?.league?.name ?? 'League Standings'}
             </Text>
             <Text className="text-xs text-slate-400">
-              {standingsData?.standings?.results?.length ?? 0} Managers Listed
+              {results.length} Managers Listed
             </Text>
           </View>
           <Ionicons name="trophy" size={20} color="#00ff87" />
@@ -119,22 +114,19 @@ export default function LeaguesScreen() {
             </View>
 
             {/* Manager Rows */}
-            {standingsData?.standings?.results?.map((row) => {
+            {results.map((row: FPLLeagueResult) => {
               const isCurrentUser = row.entry === teamId;
+              const rowKey = row.id ?? row.entry ?? row.rank;
 
               return (
                 <View
-                  key={row.id}
-                  className={`flex-row items-center justify-between py-2.5 px-1 border-b border-slate-850 ${
-                    isCurrentUser ? 'bg-emerald-950/30 rounded-lg' : ''
+                  key={rowKey}
+                  className={`flex-row items-center justify-between py-2.5 px-1 border-b border-slate-800 ${
+                    isCurrentUser ? 'bg-emerald-950/40 rounded-lg' : ''
                   }`}
                 >
                   <View className="w-8">
-                    <Text
-                      className={`text-xs font-bold ${
-                        row.rank === 1 ? 'text-yellow-400' : 'text-slate-400'
-                      }`}
-                    >
+                    <Text className={`text-xs font-bold ${row.rank === 1 ? 'text-yellow-400' : 'text-slate-400'}`}>
                       {row.rank}
                     </Text>
                   </View>
@@ -142,26 +134,24 @@ export default function LeaguesScreen() {
                   <View className="flex-1 pr-2">
                     <Text
                       numberOfLines={1}
-                      className={`text-xs font-semibold ${
-                        isCurrentUser ? 'text-emerald-400 font-bold' : 'text-white'
-                      }`}
+                      className={`text-xs font-semibold ${isCurrentUser ? 'text-emerald-400 font-bold' : 'text-white'}`}
                     >
-                      {row.entry_name}
+                      {row.entry_name || 'Team'}
                     </Text>
                     <Text numberOfLines={1} className="text-[10px] text-slate-400">
-                      {row.player_name}
+                      {row.player_name || 'Manager'}
                     </Text>
                   </View>
 
                   <View className="w-12 items-end">
                     <Text className="text-xs font-semibold text-slate-300">
-                      {row.event_total}
+                      {row.event_total ?? 0}
                     </Text>
                   </View>
 
                   <View className="w-14 items-end">
                     <Text className="text-xs font-black text-emerald-400">
-                      {row.total}
+                      {row.total ?? 0}
                     </Text>
                   </View>
                 </View>

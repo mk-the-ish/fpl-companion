@@ -1,9 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
 import { useFPLBootstrap } from '../hooks/useFplData';
-import { FPLPlayer } from '../types/fpl';
 
 export default function RivalCompareScreen() {
   const router = useRouter();
@@ -14,11 +12,8 @@ export default function RivalCompareScreen() {
     return [...(bootstrap?.elements ?? [])].sort((a, b) => b.total_points - a.total_points);
   }, [bootstrap]);
 
-  const [playerAId, setPlayerAId] = useState<number | null>(null);
-  const [playerBId, setPlayerBId] = useState<number | null>(null);
-
-  const playerA = sortedPlayers.find((p) => p.id === (playerAId ?? sortedPlayers[0]?.id));
-  const playerB = sortedPlayers.find((p) => p.id === (playerBId ?? sortedPlayers[1]?.id));
+  const playerA = sortedPlayers[0];
+  const playerB = sortedPlayers[1];
 
   const renderMetricRow = (label: string, valA: string | number, valB: string | number) => {
     const numA = typeof valA === 'string' ? parseFloat(valA) : valA;

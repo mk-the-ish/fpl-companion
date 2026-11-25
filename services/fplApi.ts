@@ -5,6 +5,8 @@ import {
   FPLFixture,
   FPLEntrySummaryResponse,
   FPLLeagueStandingsResponse,
+   FPLManagerProfileResponse,
+  FPLClassicLeagueResponse,
 } from '../types/fpl';
 
 const FPL_BASE_URL = 'https://fantasy.premierleague.com/api';
@@ -76,4 +78,13 @@ export const fplService = {
   getLeagueStandings: async (leagueId: number): Promise<FPLLeagueStandingsResponse> => {
     return fplFetch<FPLLeagueStandingsResponse>(`/leagues-classic/${leagueId}/standings/`);
   },
-};
+
+  /**
+   * Fetches a manager's profile, including their classic and H2H mini-league memberships.
+   */
+  getManagerProfile: async (teamId: number): Promise<FPLManagerProfileResponse> => {
+    return fplFetch<FPLManagerProfileResponse>(`/entry/${teamId}/`);
+  },
+
+
+}

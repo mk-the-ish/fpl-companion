@@ -24,7 +24,7 @@ export default function TabLayout() {
         options={{
           title: 'Live Hub',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="pulse-outline" size={size} color={color} />
+            <Ionicons name="pulse-outline" size={size} color={typeof color === 'string' ? color : '#94a3b8'} />
           ),
         }}
       />
@@ -33,7 +33,7 @@ export default function TabLayout() {
         options={{
           title: 'My Squad',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="shirt-outline" size={size} color={color} />
+            <Ionicons name="shirt-outline" size={size} color={typeof color === 'string' ? color : '#94a3b8'} />
           ),
         }}
       />
@@ -42,7 +42,7 @@ export default function TabLayout() {
         options={{
           title: 'Planner',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="sparkles-outline" size={size} color={color} />
+            <Ionicons name="sparkles-outline" size={size} color={typeof color === 'string' ? color : '#94a3b8'} />
           ),
         }}
       />
@@ -51,7 +51,7 @@ export default function TabLayout() {
         options={{
           title: 'Leagues',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="trophy-outline" size={size} color={color} />
+            <Ionicons name="trophy-outline" size={size} color={typeof color === 'string' ? color : '#94a3b8'} />
           ),
         }}
       />
@@ -60,7 +60,7 @@ export default function TabLayout() {
         options={{
           title: 'Settings',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="settings-outline" size={size} color={color} />
+            <Ionicons name="settings-outline" size={size} color={typeof color === 'string' ? color : '#94a3b8'} />
           ),
         }}
       />

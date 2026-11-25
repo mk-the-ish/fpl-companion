@@ -240,3 +240,48 @@ export interface FPLEntrySummaryResponse {
     classic: FPLLeagueSummary[];
   };
 }
+
+export interface FPLLeagueResult {
+  id: number;
+  event_total: number;
+  player_name: string;
+  rank: number;
+  last_rank: number;
+  rank_sort: number;
+  total: number;
+  entry: number; // Rival's FPL Entry ID
+  entry_name: string; // Team name
+}
+
+export interface FPLClassicLeagueResponse {
+  league: {
+    id: number;
+    name: string;
+    created: string;
+    closed: boolean;
+    max_entries: number | null;
+    league_type: string;
+    scoring: string;
+  };
+  standings: {
+    has_next: boolean;
+    page: number;
+    results: FPLLeagueResult[];
+  };
+}
+
+export interface FPLManagerProfileResponse {
+  id: number;
+  name: string;
+  player_first_name: string;
+  player_last_name: string;
+  leagues: {
+    classic: {
+      id: number;
+      name: string;
+      short_name: string | null;
+      entry_rank: number;
+      entry_last_rank: number;
+    }[];
+  };
+}

@@ -1,15 +1,19 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, Alert, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, Alert, ScrollView, TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useQueryClient } from '@tanstack/react-query';
 import { useUserStore } from '../../stores/useUserStore';
+import { normalizeMlApiBaseUrl } from '../../services/mlApi';
 
 export default function SettingsScreen() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const teamId = useUserStore((state) => state.teamId);
   const setTeamId = useUserStore((state) => state.setTeamId);
+  const mlApiBaseUrl = useUserStore((state) => state.mlApiBaseUrl);
+  const setMlApiBaseUrl = useUserStore((state) => state.setMlApiBaseUrl);
+  const [mlApiInput, setMlApiInput] = useState(mlApiBaseUrl);
 
   const handleDisconnect = () => {
     Alert.alert(
@@ -33,6 +37,26 @@ export default function SettingsScreen() {
   const handleClearCache = () => {
     queryClient.clear();
     Alert.alert('Cache Cleared', 'All stored FPL gameweek and fixture data refreshed.');
+  };
+
+  const handleSaveMlApiUrl = () => {
+    try {
+      const normalizedUrl = normalizeMlApiBaseUrl(mlApiInput);
+      setMlApiBaseUrl(normalizedUrl ?? '');
+      setMlApiInput(normalizedUrl ?? '');
+      queryClient.removeQueries({ queryKey: ['ml-api'] });
+      Alert.alert(
+        'Saved',
+        normalizedUrl
+          ? 'The ML API server URL has been saved.'
+          : 'The ML API URL was cleared. The app will use local projections.'
+      );
+    } catch (error) {
+      Alert.alert(
+        'Invalid server URL',
+        error instanceof Error ? error.message : 'Enter a valid HTTP or HTTPS URL.'
+      );
+    }
   };
 
   return (
@@ -69,6 +93,37 @@ export default function SettingsScreen() {
             <Text className="text-xs font-bold text-rose-400">Unlink Squad</Text>
           </TouchableOpacity>
         ) : null}
+      </View>
+
+      <Text className="mb-2 text-xs font-bold uppercase tracking-wider text-slate-500">
+        Prediction Server
+      </Text>
+      <View className="mb-6 rounded-2xl border border-slate-800 bg-slate-900 p-4">
+        <Text className="mb-2 text-sm font-semibold text-white">ML API Base URL</Text>
+        <Text className="mb-3 text-xs leading-5 text-slate-400">
+          Optional. Use your server address, for example http://192.168.1.10:8000. Leave blank to use local projections.
+        </Text>
+        <TextInput
+          accessibilityLabel="ML API base URL"
+          autoCapitalize="none"
+          autoCorrect={false}
+          keyboardType="url"
+          onChangeText={setMlApiInput}
+          placeholder="http://192.168.1.10:8000"
+          placeholderTextColor="#64748b"
+          value={mlApiInput}
+          className="rounded-xl border border-slate-700 bg-slate-950 px-3 py-3 text-sm text-white"
+        />
+        <TouchableOpacity
+          accessibilityRole="button"
+          onPress={handleSaveMlApiUrl}
+          className="mt-3 items-center rounded-xl bg-emerald-400 py-3"
+        >
+          <Text className="text-sm font-bold text-slate-950">Save Server URL</Text>
+        </TouchableOpacity>
+        <Text className="mt-2 text-[11px] text-slate-500">
+          {mlApiBaseUrl ? `Configured: ${mlApiBaseUrl}` : 'Not configured'}
+        </Text>
       </View>
 
       {/* Data & Performance Section */}

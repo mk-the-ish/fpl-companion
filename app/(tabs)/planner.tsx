@@ -6,10 +6,27 @@ import { useQuery } from '@tanstack/react-query';
 import { useFPLBootstrap } from '../../hooks/useFplData';
 import { fplService } from '../../services/fplApi';
 import { generateMultiGameweekPicks, UpcomingMatch } from '../../services/recommenderV2';
+import { useUserStore } from '../../stores/useUserStore';
+import {
+  getAnalysisSourceLabel,
+  getMlApiErrorMessage,
+  getModelStatus,
+  getRecommendations,
+  MlAnalysisResult,
+} from '../../services/mlApi';
+import type { ModelStatusResponse, PositionRecommendation } from '../../types/mlApi';
 
 export default function PlannerScreen() {
   const router = useRouter();
-  const [selectedPos, setSelectedPos] = useState<number>(3); // Default to MID (3)
+  const [selectedPos, setSelectedPos] = useState<1 | 2 | 3 | 4>(3); // Default to MID (3)
+  const mlApiBaseUrl = useUserStore((state) => state.mlApiBaseUrl);
+  const modelStatusQuery = useQuery<ModelStatusResponse>({
+    queryKey: ['ml-api', 'model-status', mlApiBaseUrl],
+    enabled: !!mlApiBaseUrl,
+    queryFn: ({ signal }) => getModelStatus(mlApiBaseUrl, signal),
+    staleTime: 60_000,
+    retry: false,
+  });
 
   const { data: bootstrap, isLoading: isBootstrapLoading } = useFPLBootstrap();
 
@@ -29,8 +46,7 @@ export default function PlannerScreen() {
     return map;
   }, [bootstrap]);
 
-  // Compute 4-GW recommendations for selected position
-  const recommendations = useMemo(() => {
+  const localRecommendations = useMemo(() => {
     if (!bootstrap?.elements || !fixtures || !nextGW) return [];
     return generateMultiGameweekPicks(
       bootstrap.elements,
@@ -41,7 +57,39 @@ export default function PlannerScreen() {
     ).slice(0, 10);
   }, [bootstrap, fixtures, nextGW, teamsMap, selectedPos]);
 
-  const posTabs = [
+  const recommendationsQuery = useQuery<MlAnalysisResult<PositionRecommendation[]>>({
+    queryKey: ['ml-api', 'recommendations', mlApiBaseUrl, nextGW?.id, selectedPos],
+    enabled: !!bootstrap?.elements && !!fixtures && !!nextGW,
+    queryFn: async ({ signal }) => {
+      if (!mlApiBaseUrl) {
+        return { data: localRecommendations, source: 'local' };
+      }
+
+      try {
+        const recommendations = await getRecommendations(
+          mlApiBaseUrl,
+          nextGW!.id,
+          selectedPos,
+          signal
+        );
+        if (!Array.isArray(recommendations)) {
+          throw new Error('The ML API returned an invalid recommendations response.');
+        }
+        return { data: recommendations.slice(0, 10), source: 'backend' };
+      } catch (error) {
+        if (signal.aborted) throw error;
+        return {
+          data: localRecommendations,
+          source: 'local',
+          fallbackReason: getMlApiErrorMessage(error),
+        };
+      }
+    },
+  });
+
+  const recommendations = recommendationsQuery.data?.data ?? [];
+  const recommendationSource = recommendationsQuery.data?.source;
+  const posTabs: { id: 1 | 2 | 3 | 4; label: string }[] = [
     { id: 1, label: 'GKP' },
     { id: 2, label: 'DEF' },
     { id: 3, label: 'MID' },
@@ -54,7 +102,7 @@ export default function PlannerScreen() {
     return 'bg-rose-950 border-rose-500/50 text-rose-400';
   };
 
-  const isLoading = isBootstrapLoading || isFixturesLoading;
+  const isLoading = isBootstrapLoading || isFixturesLoading || recommendationsQuery.isLoading;
 
   if (isLoading) {
     return (
@@ -81,6 +129,23 @@ export default function PlannerScreen() {
           </View>
         </View>
       </View>
+
+      {recommendationSource ? (
+        <View className={`mb-4 rounded-xl border p-3 ${recommendationSource === 'backend' ? 'border-emerald-800 bg-emerald-950/30' : 'border-amber-800 bg-amber-950/30'}`}>
+          <Text className={`text-xs font-semibold ${recommendationSource === 'backend' ? 'text-emerald-300' : 'text-amber-300'}`}>
+            {getAnalysisSourceLabel(
+              recommendationSource,
+              modelStatusQuery.data
+            )}
+            {recommendationSource === 'local' && mlApiBaseUrl
+              ? ` ML API unavailable; ${recommendationsQuery.data?.fallbackReason ?? ''}`
+              : null}
+            {recommendationSource === 'local' && !mlApiBaseUrl
+              ? ' Add an ML API URL in Settings to enable backend predictions.'
+              : null}
+          </Text>
+        </View>
+      ) : null}
 
       {/* Position Selector Bar */}
       <View className="mb-4 flex-row rounded-xl bg-slate-900 p-1">
@@ -125,8 +190,12 @@ export default function PlannerScreen() {
               <View className="items-end">
                 <View className="flex-row items-center">
                   <Ionicons name="flash" size={12} color="#00ff87" />
-                  <Text className="ml-1 text-lg font-black text-emerald-400">{item.projectedScore}</Text>
-                  <Text className="text-[10px] text-slate-500">/100</Text>
+                  <Text className="ml-1 text-lg font-black text-emerald-400">
+                    {item.projectedXP != null ? item.projectedXP.toFixed(1) : item.projectedScore}
+                  </Text>
+                  <Text className="text-[10px] text-slate-500">
+                    {item.projectedXP != null ? 'xP' : '/100'}
+                  </Text>
                 </View>
                 <Text className="text-[10px] text-slate-500">Avg FDR: {item.avgFDR}</Text>
               </View>
