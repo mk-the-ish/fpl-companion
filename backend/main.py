@@ -26,6 +26,7 @@ from .api_models import (
 )
 from .config import settings
 from .data_pipeline import FPLApiClient, FPLUpstreamError
+from .evaluate import DEFAULT_REPORT_DIRECTORY, run_walk_forward_evaluation
 from .ml_model import (
     ModelArtifactError,
     ModelTrainingError,
@@ -47,6 +48,7 @@ app = FastAPI(
     description="Machine-learning and optimization service for FPL Companion.",
 )
 app.state.model_path = settings.model_path
+app.state.report_directory = DEFAULT_REPORT_DIRECTORY
 
 app.add_middleware(
     CORSMiddleware,
@@ -254,6 +256,16 @@ async def health() -> dict[str, str]:
     }
 
 
+@app.get("/")
+async def service_info() -> dict[str, str]:
+    return {
+        "service": "fpl-companion-ml",
+        "api_version": "v1",
+        "health": "/api/v1/health",
+        "docs": "/docs",
+    }
+
+
 @app.get("/api/v1/model")
 async def get_model_status(request: Request) -> dict[str, str | None]:
     return model_status(request.app.state.model_path)
@@ -315,6 +327,58 @@ async def retrain_model_endpoint(
         return RetrainResponse(status="ready", **training_result)
     finally:
         finish_training()
+
+
+@app.post(
+    "/api/v1/evaluate",
+    responses={
+        400: {"model": ErrorResponse},
+        502: {"model": ErrorResponse},
+    },
+)
+async def evaluate_model_endpoint(
+    request: Request,
+    fpl_api: FPLApiClient = Depends(get_fpl_api),
+) -> dict[str, Any]:
+    bootstrap, fixtures = await asyncio.gather(
+        fpl_api.get_bootstrap(),
+        fpl_api.get_fixtures(),
+    )
+    if not isinstance(bootstrap, dict) or not isinstance(bootstrap.get("elements"), list):
+        raise InvalidFPLDataError("FPL bootstrap response is missing player data.")
+    if not isinstance(fixtures, list):
+        raise InvalidFPLDataError("FPL fixtures response is not a list.")
+
+    completed_gameweeks = [
+        event["id"]
+        for event in bootstrap.get("events", [])
+        if isinstance(event, dict)
+        and event.get("finished") is True
+        and isinstance(event.get("id"), int)
+    ]
+    latest_gameweek = max(completed_gameweeks, default=None)
+    if latest_gameweek is None:
+        raise HTTPException(
+            status_code=400,
+            detail="The FPL API has no completed gameweeks to evaluate.",
+        )
+
+    training_rows, _ = await fpl_api.get_training_rows(
+        bootstrap=bootstrap,
+        fixtures=fixtures,
+        through_gameweek=latest_gameweek,
+    )
+    try:
+        report, report_path = await run_in_threadpool(
+            run_walk_forward_evaluation,
+            training_rows,
+            latest_gameweek,
+            3,
+            request.app.state.report_directory,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    return {"report_path": str(report_path), "report": report}
 
 
 @app.post(

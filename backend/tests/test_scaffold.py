@@ -1,4 +1,5 @@
 import asyncio
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -7,6 +8,7 @@ import httpx
 import numpy as np
 
 from backend.data_pipeline import FPLApiClient, FPLUpstreamError
+from backend.evaluate import evaluate_walk_forward, run_walk_forward_evaluation
 from backend.main import app, get_fpl_api
 from backend.features import FEATURE_NAMES, build_training_rows
 from backend.monte_carlo import estimate_haul_probability
@@ -97,6 +99,7 @@ class FakeFPLApiClient:
                 "target": float((gameweek + player["id"]) % 12),
                 "gameweek": gameweek,
                 "player_id": player["id"],
+                "fixture_count": 2 if player["id"] == 3 and gameweek == 12 else 1,
             }
             for player in self.bootstrap["elements"]
             for position in [player["element_type"]]
@@ -152,6 +155,7 @@ class BackendScaffoldTests(unittest.TestCase):
         self.fpl_api = FakeFPLApiClient()
         self.model_directory = tempfile.TemporaryDirectory()
         app.state.model_path = Path(self.model_directory.name) / "model_v1.joblib"
+        app.state.report_directory = Path(self.model_directory.name) / "reports"
         app.dependency_overrides[get_fpl_api] = lambda: self.fpl_api
 
     def tearDown(self) -> None:
@@ -176,6 +180,20 @@ class BackendScaffoldTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["api_version"], "v1")
         self.assertTrue(response.headers.get("X-Request-ID"))
+
+    def test_root_endpoint_describes_service_and_health_url(self) -> None:
+        response = asyncio.run(self.get_api_response("/"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.json(),
+            {
+                "service": "fpl-companion-ml",
+                "api_version": "v1",
+                "health": "/api/v1/health",
+                "docs": "/docs",
+            },
+        )
 
     def test_local_network_origin_is_allowed_for_expo_web(self) -> None:
         async def fetch() -> httpx.Response:
@@ -394,6 +412,95 @@ class BackendScaffoldTests(unittest.TestCase):
         self.assertEqual(response.json()["error"]["code"], "validation_error")
         self.assertFalse(Path(app.state.model_path).exists())
 
+    def test_walk_forward_evaluation_uses_only_prior_gameweeks_and_reports_baselines(self) -> None:
+        rows = [
+            {
+                **{
+                    name: (
+                        float(position)
+                        if name == "element_type"
+                        else 90.0
+                        if name == "minutes_prior_roll4"
+                        else 4.0
+                        if name == "points_per90_prior_roll4"
+                        else float(gameweek % 3)
+                        if name == "opponent_difficulty"
+                        else 1.0
+                        if name == "fatigue_decay"
+                        else 0.0
+                    )
+                    for name in FEATURE_NAMES
+                },
+                "target": float(gameweek + player_id % 3),
+                "gameweek": gameweek,
+                "player_id": player_id,
+                "fixture_count": 2 if gameweek == 5 and player_id == 30 else 1,
+            }
+            for position in range(1, 5)
+            for player_id in range(position * 10, position * 10 + 3)
+            for gameweek in range(1, 7)
+        ]
+
+        report = evaluate_walk_forward(rows, latest_gameweek=6, min_train_gameweeks=3)
+
+        self.assertEqual(report["evaluation_gameweeks"], [4, 5, 6])
+        self.assertEqual(set(report["positions"]), {"1", "2", "3", "4"})
+        midfielder = report["positions"]["3"]
+        self.assertEqual(midfielder["sample_count"], 9)
+        self.assertIn("beat_both_baselines", midfielder)
+        self.assertEqual(
+            midfielder["by_fixture_cardinality"]["double_gameweek"]["ridge"]["sample_count"],
+            1,
+        )
+        self.assertEqual(set(midfielder["by_gameweek"]), {"4", "5", "6"})
+        self.assertEqual(
+            midfielder["by_gameweek"]["4"]["ridge"]["sample_count"],
+            3,
+        )
+
+    def test_walk_forward_report_contains_metrics_only_and_does_not_mutate_model(self) -> None:
+        rows = [
+            {
+                **{name: float(position if name == "element_type" else 1) for name in FEATURE_NAMES},
+                "target": float(gameweek + player_id),
+                "gameweek": gameweek,
+                "player_id": player_id,
+                "fixture_count": 1,
+            }
+            for position in range(1, 5)
+            for player_id in range(position * 10, position * 10 + 3)
+            for gameweek in range(1, 6)
+        ]
+        report_directory = Path(self.model_directory.name) / "reports"
+
+        report, report_path = run_walk_forward_evaluation(
+            rows,
+            latest_gameweek=5,
+            min_train_gameweeks=3,
+            report_directory=report_directory,
+        )
+
+        self.assertFalse(Path(app.state.model_path).exists())
+        self.assertTrue(report_path.is_file())
+        self.assertEqual(json.loads(report_path.read_text(encoding="utf-8")), report)
+        self.assertNotIn("player_id", report_path.read_text(encoding="utf-8"))
+        self.assertTrue(report_path.name.startswith("eval_report_"))
+
+    def test_evaluate_endpoint_does_not_mutate_existing_model_artifact(self) -> None:
+        original_artifact = b"leave existing production model artifact untouched"
+        Path(app.state.model_path).write_bytes(original_artifact)
+
+        response = asyncio.run(
+            self.get_api_response("/api/v1/evaluate", method="POST")
+        )
+
+        self.assertEqual(response.status_code, 200, response.text)
+        body = response.json()
+        self.assertTrue(Path(body["report_path"]).is_file())
+        self.assertEqual(Path(app.state.model_path).read_bytes(), original_artifact)
+        self.assertEqual(body["report"]["evaluation_gameweeks"][0], 4)
+        self.assertEqual(self.fpl_api.training_gameweek, 12)
+
     def test_training_rows_use_only_prior_match_features(self) -> None:
         history = [
             {
@@ -413,7 +520,22 @@ class BackendScaffoldTests(unittest.TestCase):
             team_id=1,
             element_type=3,
             history=history,
-            fixtures=[],
+            fixtures=[
+                {
+                    "event": 5,
+                    "team_h": 2,
+                    "team_a": 1,
+                    "team_h_difficulty": 3,
+                    "team_a_difficulty": 3,
+                },
+                {
+                    "event": 5,
+                    "team_h": 3,
+                    "team_a": 1,
+                    "team_h_difficulty": 3,
+                    "team_a_difficulty": 3,
+                },
+            ],
         )
 
         self.assertEqual(len(rows), 5)
@@ -421,6 +543,50 @@ class BackendScaffoldTests(unittest.TestCase):
         self.assertEqual(rows[0]["xg_per90_prior_roll4"], 0)
         self.assertEqual(rows[4]["minutes_prior_roll4"], 90)
         self.assertEqual(rows[4]["xg_per90_prior_roll4"], 1)
+        self.assertEqual(rows[4]["fixture_count"], 2)
+
+    def test_double_gameweek_features_do_not_leak_same_gameweek_results(self) -> None:
+        history = [
+            {
+                "round": 1,
+                "minutes": 90,
+                "total_points": 2,
+                "was_home": True,
+                "opponent_team": 2,
+                "kickoff_time": "2026-08-01T12:00:00Z",
+            },
+            {
+                "round": 2,
+                "minutes": 90,
+                "total_points": 20,
+                "was_home": True,
+                "opponent_team": 3,
+                "kickoff_time": "2026-08-08T12:00:00Z",
+            },
+            {
+                "round": 2,
+                "minutes": 90,
+                "total_points": 1,
+                "was_home": False,
+                "opponent_team": 4,
+                "kickoff_time": "2026-08-12T12:00:00Z",
+            },
+        ]
+
+        rows = build_training_rows(
+            player_id=7,
+            team_id=1,
+            element_type=3,
+            history=history,
+            fixtures=[],
+        )
+
+        double_gameweek_rows = [row for row in rows if row["gameweek"] == 2]
+        self.assertEqual(len(double_gameweek_rows), 2)
+        self.assertEqual(
+            [row["points_per90_prior_roll4"] for row in double_gameweek_rows],
+            [2.0, 2.0],
+        )
 
     def test_binary_milp_respects_constraint(self) -> None:
         result = solve_binary_selection(

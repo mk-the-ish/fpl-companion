@@ -1,9 +1,19 @@
 import os
+import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 
 
 BACKEND_DIR = Path(__file__).resolve().parent
+IS_VERCEL = os.getenv("VERCEL") == "1"
+RUNTIME_DATA_DIR = Path(
+    os.getenv(
+        "FPL_RUNTIME_DATA_DIR",
+        str(Path(tempfile.gettempdir()) / "fpl-companion")
+        if IS_VERCEL
+        else str(BACKEND_DIR),
+    )
+)
 
 
 def _read_cors_origins() -> tuple[str, ...]:
@@ -35,7 +45,7 @@ class Settings:
     model_path: Path = Path(
         os.getenv(
             "FPL_MODEL_PATH",
-            str(BACKEND_DIR / "models" / "model_v1.joblib"),
+            str(RUNTIME_DATA_DIR / "models" / "model_v1.joblib"),
         )
     )
     cors_origins: tuple[str, ...] = _read_cors_origins()

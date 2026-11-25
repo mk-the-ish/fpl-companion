@@ -176,6 +176,18 @@ Success response:
 Each position has a chronological holdout MAE. At least eight finite historical
 matches per position are required.
 
+### `POST /api/v1/evaluate`
+
+Runs an expanding-window backtest against completed FPL player-match history.
+For each evaluation gameweek from GW4 onward, each positional Ridge pipeline is
+fit only on rows from earlier gameweeks. The response compares Ridge with a
+position-specific prior-data mean and a player's prior rolling-four points
+baseline. It includes MAE, prediction bias, sample counts, per-gameweek metrics,
+and separate single- and double-gameweek metrics. The aggregate JSON report is
+saved to `backend/reports/`; this endpoint does not load or modify the
+production model artifact. Reports include aggregate metrics only, not player
+histories or IDs.
+
 ## Prediction behavior
 
 The trained regressors predict match-level points for each scheduled fixture.

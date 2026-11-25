@@ -103,6 +103,46 @@ def _difficulty_lookup(
     return result
 
 
+def _fixture_count_for_history_record(
+    record: dict[str, Any],
+    fixtures: list[dict[str, Any]],
+    fallback_team_id: int,
+) -> int:
+    event = record.get("round")
+    opponent_id = int(number(record.get("opponent_team"), default=-1))
+    was_home = bool(record.get("was_home"))
+    matching_fixture = next(
+        (
+            fixture
+            for fixture in fixtures
+            if fixture.get("event") == event
+            and (
+                fixture.get("team_h") == opponent_id
+                if was_home
+                else fixture.get("team_a") == opponent_id
+            )
+        ),
+        None,
+    )
+    team_id = fallback_team_id
+    if matching_fixture is not None:
+        candidate_team_id = (
+            matching_fixture.get("team_h")
+            if was_home
+            else matching_fixture.get("team_a")
+        )
+        if isinstance(candidate_team_id, int):
+            team_id = candidate_team_id
+
+    fixture_count = sum(
+        1
+        for fixture in fixtures
+        if fixture.get("event") == event
+        and team_id in (fixture.get("team_h"), fixture.get("team_a"))
+    )
+    return fixture_count or 1
+
+
 def build_training_rows(
     player_id: int,
     team_id: int,
@@ -127,7 +167,11 @@ def build_training_rows(
     rows = []
 
     for index, record in enumerate(ordered_history):
-        previous_records = ordered_history[:index]
+        previous_records = [
+            previous
+            for previous in ordered_history[:index]
+            if previous["round"] < record["round"]
+        ]
         rest_hours = _rest_hours(
             ordered_history[index - 1] if index > 0 else None,
             record,
@@ -160,6 +204,11 @@ def build_training_rows(
                 "target": target,
                 "gameweek": record["round"],
                 "player_id": player_id,
+                "fixture_count": _fixture_count_for_history_record(
+                    record,
+                    fixtures,
+                    team_id,
+                ),
             }
         )
     return rows

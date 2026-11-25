@@ -1,0 +1,1942 @@
+{
+  "evaluation": "walk_forward_expanding_window",
+  "training_policy": "For each target gameweek t, fit only rows with gameweek < t.",
+  "min_train_gameweeks": 3,
+  "evaluation_gameweeks": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "positions": {
+    "1": {
+      "sample_count": 208,
+      "ridge": {
+        "sample_count": 208,
+        "mae": 2.1886,
+        "bias": -0.0876
+      },
+      "positional_mean": {
+        "sample_count": 208,
+        "mae": 2.3355,
+        "bias": -0.1502
+      },
+      "player_rolling4": {
+        "sample_count": 208,
+        "mae": 2.0557,
+        "bias": -0.099
+      },
+      "by_fixture_cardinality": {
+        "single_gameweek": {
+          "ridge": {
+            "sample_count": 208,
+            "mae": 2.1886,
+            "bias": -0.0876
+          },
+          "positional_mean": {
+            "sample_count": 208,
+            "mae": 2.3355,
+            "bias": -0.1502
+          },
+          "player_rolling4": {
+            "sample_count": 208,
+            "mae": 2.0557,
+            "bias": -0.099
+          }
+        },
+        "double_gameweek": {
+          "ridge": {
+            "sample_count": 0,
+            "mae": null,
+            "bias": null
+          },
+          "positional_mean": {
+            "sample_count": 0,
+            "mae": null,
+            "bias": null
+          },
+          "player_rolling4": {
+            "sample_count": 0,
+            "mae": null,
+            "bias": null
+          }
+        }
+      },
+      "beat_both_baselines": false,
+      "by_gameweek": {
+        "4": {
+          "ridge": {
+            "sample_count": 26,
+            "mae": 2.9122,
+            "bias": -0.304
+          },
+          "positional_mean": {
+            "sample_count": 26,
+            "mae": 2.6598,
+            "bias": -0.7051
+          },
+          "player_rolling4": {
+            "sample_count": 26,
+            "mae": 2.3205,
+            "bias": -0.7051
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 26,
+                "mae": 2.9122,
+                "bias": -0.304
+              },
+              "positional_mean": {
+                "sample_count": 26,
+                "mae": 2.6598,
+                "bias": -0.7051
+              },
+              "player_rolling4": {
+                "sample_count": 26,
+                "mae": 2.3205,
+                "bias": -0.7051
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "5": {
+          "ridge": {
+            "sample_count": 26,
+            "mae": 2.224,
+            "bias": -0.337
+          },
+          "positional_mean": {
+            "sample_count": 26,
+            "mae": 2.5695,
+            "bias": -0.6058
+          },
+          "player_rolling4": {
+            "sample_count": 26,
+            "mae": 2.2404,
+            "bias": -0.6058
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 26,
+                "mae": 2.224,
+                "bias": -0.337
+              },
+              "positional_mean": {
+                "sample_count": 26,
+                "mae": 2.5695,
+                "bias": -0.6058
+              },
+              "player_rolling4": {
+                "sample_count": 26,
+                "mae": 2.2404,
+                "bias": -0.6058
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "6": {
+          "ridge": {
+            "sample_count": 26,
+            "mae": 1.3816,
+            "bias": -0.751
+          },
+          "positional_mean": {
+            "sample_count": 26,
+            "mae": 1.8414,
+            "bias": 0.8231
+          },
+          "player_rolling4": {
+            "sample_count": 26,
+            "mae": 1.8654,
+            "bias": 0.8654
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 26,
+                "mae": 1.3816,
+                "bias": -0.751
+              },
+              "positional_mean": {
+                "sample_count": 26,
+                "mae": 1.8414,
+                "bias": 0.8231
+              },
+              "player_rolling4": {
+                "sample_count": 26,
+                "mae": 1.8654,
+                "bias": 0.8654
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "7": {
+          "ridge": {
+            "sample_count": 26,
+            "mae": 1.7813,
+            "bias": 0.42
+          },
+          "positional_mean": {
+            "sample_count": 26,
+            "mae": 2.0715,
+            "bias": -0.0449
+          },
+          "player_rolling4": {
+            "sample_count": 26,
+            "mae": 1.9615,
+            "bias": 0.0962
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 26,
+                "mae": 1.7813,
+                "bias": 0.42
+              },
+              "positional_mean": {
+                "sample_count": 26,
+                "mae": 2.0715,
+                "bias": -0.0449
+              },
+              "player_rolling4": {
+                "sample_count": 26,
+                "mae": 1.9615,
+                "bias": 0.0962
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "8": {
+          "ridge": {
+            "sample_count": 26,
+            "mae": 2.5602,
+            "bias": -0.2644
+          },
+          "positional_mean": {
+            "sample_count": 26,
+            "mae": 2.7988,
+            "bias": -0.6154
+          },
+          "player_rolling4": {
+            "sample_count": 26,
+            "mae": 2.3173,
+            "bias": -0.4904
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 26,
+                "mae": 2.5602,
+                "bias": -0.2644
+              },
+              "positional_mean": {
+                "sample_count": 26,
+                "mae": 2.7988,
+                "bias": -0.6154
+              },
+              "player_rolling4": {
+                "sample_count": 26,
+                "mae": 2.3173,
+                "bias": -0.4904
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "9": {
+          "ridge": {
+            "sample_count": 26,
+            "mae": 2.4095,
+            "bias": 0.4233
+          },
+          "positional_mean": {
+            "sample_count": 26,
+            "mae": 2.2544,
+            "bias": -0.0
+          },
+          "player_rolling4": {
+            "sample_count": 26,
+            "mae": 2.125,
+            "bias": 0.0673
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 26,
+                "mae": 2.4095,
+                "bias": 0.4233
+              },
+              "positional_mean": {
+                "sample_count": 26,
+                "mae": 2.2544,
+                "bias": -0.0
+              },
+              "player_rolling4": {
+                "sample_count": 26,
+                "mae": 2.125,
+                "bias": 0.0673
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "10": {
+          "ridge": {
+            "sample_count": 26,
+            "mae": 2.1671,
+            "bias": 0.4757
+          },
+          "positional_mean": {
+            "sample_count": 26,
+            "mae": 2.0828,
+            "bias": 0.1538
+          },
+          "player_rolling4": {
+            "sample_count": 26,
+            "mae": 1.5288,
+            "bias": 0.0865
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 26,
+                "mae": 2.1671,
+                "bias": 0.4757
+              },
+              "positional_mean": {
+                "sample_count": 26,
+                "mae": 2.0828,
+                "bias": 0.1538
+              },
+              "player_rolling4": {
+                "sample_count": 26,
+                "mae": 1.5288,
+                "bias": 0.0865
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "11": {
+          "ridge": {
+            "sample_count": 26,
+            "mae": 2.0726,
+            "bias": -0.3638
+          },
+          "positional_mean": {
+            "sample_count": 26,
+            "mae": 2.4053,
+            "bias": -0.2077
+          },
+          "player_rolling4": {
+            "sample_count": 26,
+            "mae": 2.0865,
+            "bias": -0.1058
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 26,
+                "mae": 2.0726,
+                "bias": -0.3638
+              },
+              "positional_mean": {
+                "sample_count": 26,
+                "mae": 2.4053,
+                "bias": -0.2077
+              },
+              "player_rolling4": {
+                "sample_count": 26,
+                "mae": 2.0865,
+                "bias": -0.1058
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        }
+      }
+    },
+    "2": {
+      "sample_count": 1288,
+      "ridge": {
+        "sample_count": 1288,
+        "mae": 2.2129,
+        "bias": 0.496
+      },
+      "positional_mean": {
+        "sample_count": 1288,
+        "mae": 2.2268,
+        "bias": 0.1253
+      },
+      "player_rolling4": {
+        "sample_count": 1288,
+        "mae": 1.893,
+        "bias": 0.0833
+      },
+      "by_fixture_cardinality": {
+        "single_gameweek": {
+          "ridge": {
+            "sample_count": 1288,
+            "mae": 2.2129,
+            "bias": 0.496
+          },
+          "positional_mean": {
+            "sample_count": 1288,
+            "mae": 2.2268,
+            "bias": 0.1253
+          },
+          "player_rolling4": {
+            "sample_count": 1288,
+            "mae": 1.893,
+            "bias": 0.0833
+          }
+        },
+        "double_gameweek": {
+          "ridge": {
+            "sample_count": 0,
+            "mae": null,
+            "bias": null
+          },
+          "positional_mean": {
+            "sample_count": 0,
+            "mae": null,
+            "bias": null
+          },
+          "player_rolling4": {
+            "sample_count": 0,
+            "mae": null,
+            "bias": null
+          }
+        }
+      },
+      "beat_both_baselines": false,
+      "by_gameweek": {
+        "4": {
+          "ridge": {
+            "sample_count": 161,
+            "mae": 2.4755,
+            "bias": 0.3904
+          },
+          "positional_mean": {
+            "sample_count": 161,
+            "mae": 2.4359,
+            "bias": 0.0819
+          },
+          "player_rolling4": {
+            "sample_count": 161,
+            "mae": 2.0735,
+            "bias": 0.0487
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 161,
+                "mae": 2.4755,
+                "bias": 0.3904
+              },
+              "positional_mean": {
+                "sample_count": 161,
+                "mae": 2.4359,
+                "bias": 0.0819
+              },
+              "player_rolling4": {
+                "sample_count": 161,
+                "mae": 2.0735,
+                "bias": 0.0487
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "5": {
+          "ridge": {
+            "sample_count": 161,
+            "mae": 2.2079,
+            "bias": 0.1098
+          },
+          "positional_mean": {
+            "sample_count": 161,
+            "mae": 2.4067,
+            "bias": -0.0324
+          },
+          "player_rolling4": {
+            "sample_count": 161,
+            "mae": 1.9187,
+            "bias": -0.0492
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 161,
+                "mae": 2.2079,
+                "bias": 0.1098
+              },
+              "positional_mean": {
+                "sample_count": 161,
+                "mae": 2.4067,
+                "bias": -0.0324
+              },
+              "player_rolling4": {
+                "sample_count": 161,
+                "mae": 1.9187,
+                "bias": -0.0492
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "6": {
+          "ridge": {
+            "sample_count": 161,
+            "mae": 3.0413,
+            "bias": 2.3077
+          },
+          "positional_mean": {
+            "sample_count": 161,
+            "mae": 2.0124,
+            "bias": 0.3842
+          },
+          "player_rolling4": {
+            "sample_count": 161,
+            "mae": 1.8499,
+            "bias": 0.353
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 161,
+                "mae": 3.0413,
+                "bias": 2.3077
+              },
+              "positional_mean": {
+                "sample_count": 161,
+                "mae": 2.0124,
+                "bias": 0.3842
+              },
+              "player_rolling4": {
+                "sample_count": 161,
+                "mae": 1.8499,
+                "bias": 0.353
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "7": {
+          "ridge": {
+            "sample_count": 161,
+            "mae": 1.9442,
+            "bias": 0.3601
+          },
+          "positional_mean": {
+            "sample_count": 161,
+            "mae": 2.1907,
+            "bias": 0.1261
+          },
+          "player_rolling4": {
+            "sample_count": 161,
+            "mae": 2.0083,
+            "bias": 0.1325
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 161,
+                "mae": 1.9442,
+                "bias": 0.3601
+              },
+              "positional_mean": {
+                "sample_count": 161,
+                "mae": 2.1907,
+                "bias": 0.1261
+              },
+              "player_rolling4": {
+                "sample_count": 161,
+                "mae": 2.0083,
+                "bias": 0.1325
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "8": {
+          "ridge": {
+            "sample_count": 161,
+            "mae": 2.2653,
+            "bias": 0.0325
+          },
+          "positional_mean": {
+            "sample_count": 161,
+            "mae": 2.4134,
+            "bias": -0.1593
+          },
+          "player_rolling4": {
+            "sample_count": 161,
+            "mae": 2.1739,
+            "bias": -0.2298
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 161,
+                "mae": 2.2653,
+                "bias": 0.0325
+              },
+              "positional_mean": {
+                "sample_count": 161,
+                "mae": 2.4134,
+                "bias": -0.1593
+              },
+              "player_rolling4": {
+                "sample_count": 161,
+                "mae": 2.1739,
+                "bias": -0.2298
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "9": {
+          "ridge": {
+            "sample_count": 161,
+            "mae": 2.0088,
+            "bias": 0.1963
+          },
+          "positional_mean": {
+            "sample_count": 161,
+            "mae": 2.1553,
+            "bias": 0.0783
+          },
+          "player_rolling4": {
+            "sample_count": 161,
+            "mae": 1.663,
+            "bias": 0.0233
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 161,
+                "mae": 2.0088,
+                "bias": 0.1963
+              },
+              "positional_mean": {
+                "sample_count": 161,
+                "mae": 2.1553,
+                "bias": 0.0783
+              },
+              "player_rolling4": {
+                "sample_count": 161,
+                "mae": 1.663,
+                "bias": 0.0233
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "10": {
+          "ridge": {
+            "sample_count": 161,
+            "mae": 1.8128,
+            "bias": 0.3664
+          },
+          "positional_mean": {
+            "sample_count": 161,
+            "mae": 2.0381,
+            "bias": 0.2496
+          },
+          "player_rolling4": {
+            "sample_count": 161,
+            "mae": 1.5652,
+            "bias": 0.1615
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 161,
+                "mae": 1.8128,
+                "bias": 0.3664
+              },
+              "positional_mean": {
+                "sample_count": 161,
+                "mae": 2.0381,
+                "bias": 0.2496
+              },
+              "player_rolling4": {
+                "sample_count": 161,
+                "mae": 1.5652,
+                "bias": 0.1615
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "11": {
+          "ridge": {
+            "sample_count": 161,
+            "mae": 1.9474,
+            "bias": 0.2051
+          },
+          "positional_mean": {
+            "sample_count": 161,
+            "mae": 2.162,
+            "bias": 0.274
+          },
+          "player_rolling4": {
+            "sample_count": 161,
+            "mae": 1.8913,
+            "bias": 0.2267
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 161,
+                "mae": 1.9474,
+                "bias": 0.2051
+              },
+              "positional_mean": {
+                "sample_count": 161,
+                "mae": 2.162,
+                "bias": 0.274
+              },
+              "player_rolling4": {
+                "sample_count": 161,
+                "mae": 1.8913,
+                "bias": 0.2267
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        }
+      }
+    },
+    "3": {
+      "sample_count": 1764,
+      "ridge": {
+        "sample_count": 1764,
+        "mae": 1.6608,
+        "bias": 0.0959
+      },
+      "positional_mean": {
+        "sample_count": 1764,
+        "mae": 1.8104,
+        "bias": 0.0639
+      },
+      "player_rolling4": {
+        "sample_count": 1764,
+        "mae": 1.6492,
+        "bias": -0.0138
+      },
+      "by_fixture_cardinality": {
+        "single_gameweek": {
+          "ridge": {
+            "sample_count": 1764,
+            "mae": 1.6608,
+            "bias": 0.0959
+          },
+          "positional_mean": {
+            "sample_count": 1764,
+            "mae": 1.8104,
+            "bias": 0.0639
+          },
+          "player_rolling4": {
+            "sample_count": 1764,
+            "mae": 1.6492,
+            "bias": -0.0138
+          }
+        },
+        "double_gameweek": {
+          "ridge": {
+            "sample_count": 0,
+            "mae": null,
+            "bias": null
+          },
+          "positional_mean": {
+            "sample_count": 0,
+            "mae": null,
+            "bias": null
+          },
+          "player_rolling4": {
+            "sample_count": 0,
+            "mae": null,
+            "bias": null
+          }
+        }
+      },
+      "beat_both_baselines": false,
+      "by_gameweek": {
+        "4": {
+          "ridge": {
+            "sample_count": 219,
+            "mae": 1.7471,
+            "bias": 0.5447
+          },
+          "positional_mean": {
+            "sample_count": 219,
+            "mae": 1.839,
+            "bias": 0.2574
+          },
+          "player_rolling4": {
+            "sample_count": 219,
+            "mae": 1.5563,
+            "bias": 0.1849
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 219,
+                "mae": 1.7471,
+                "bias": 0.5447
+              },
+              "positional_mean": {
+                "sample_count": 219,
+                "mae": 1.839,
+                "bias": 0.2574
+              },
+              "player_rolling4": {
+                "sample_count": 219,
+                "mae": 1.5563,
+                "bias": 0.1849
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "5": {
+          "ridge": {
+            "sample_count": 220,
+            "mae": 1.6251,
+            "bias": 0.2048
+          },
+          "positional_mean": {
+            "sample_count": 220,
+            "mae": 1.8085,
+            "bias": -0.0014
+          },
+          "player_rolling4": {
+            "sample_count": 220,
+            "mae": 1.6242,
+            "bias": -0.053
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 220,
+                "mae": 1.6251,
+                "bias": 0.2048
+              },
+              "positional_mean": {
+                "sample_count": 220,
+                "mae": 1.8085,
+                "bias": -0.0014
+              },
+              "player_rolling4": {
+                "sample_count": 220,
+                "mae": 1.6242,
+                "bias": -0.053
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "6": {
+          "ridge": {
+            "sample_count": 220,
+            "mae": 1.6433,
+            "bias": -1.1607
+          },
+          "positional_mean": {
+            "sample_count": 220,
+            "mae": 1.948,
+            "bias": -0.0602
+          },
+          "player_rolling4": {
+            "sample_count": 220,
+            "mae": 1.6913,
+            "bias": -0.1375
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 220,
+                "mae": 1.6433,
+                "bias": -1.1607
+              },
+              "positional_mean": {
+                "sample_count": 220,
+                "mae": 1.948,
+                "bias": -0.0602
+              },
+              "player_rolling4": {
+                "sample_count": 220,
+                "mae": 1.6913,
+                "bias": -0.1375
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "7": {
+          "ridge": {
+            "sample_count": 221,
+            "mae": 1.7188,
+            "bias": 0.4004
+          },
+          "positional_mean": {
+            "sample_count": 221,
+            "mae": 1.8076,
+            "bias": 0.2353
+          },
+          "player_rolling4": {
+            "sample_count": 221,
+            "mae": 1.7217,
+            "bias": 0.1267
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 221,
+                "mae": 1.7188,
+                "bias": 0.4004
+              },
+              "positional_mean": {
+                "sample_count": 221,
+                "mae": 1.8076,
+                "bias": 0.2353
+              },
+              "player_rolling4": {
+                "sample_count": 221,
+                "mae": 1.7217,
+                "bias": 0.1267
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "8": {
+          "ridge": {
+            "sample_count": 221,
+            "mae": 1.5351,
+            "bias": 0.3598
+          },
+          "positional_mean": {
+            "sample_count": 221,
+            "mae": 1.6405,
+            "bias": 0.2007
+          },
+          "player_rolling4": {
+            "sample_count": 221,
+            "mae": 1.7402,
+            "bias": 0.1316
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 221,
+                "mae": 1.5351,
+                "bias": 0.3598
+              },
+              "positional_mean": {
+                "sample_count": 221,
+                "mae": 1.6405,
+                "bias": 0.2007
+              },
+              "player_rolling4": {
+                "sample_count": 221,
+                "mae": 1.7402,
+                "bias": 0.1316
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "9": {
+          "ridge": {
+            "sample_count": 221,
+            "mae": 1.4318,
+            "bias": 0.3469
+          },
+          "positional_mean": {
+            "sample_count": 221,
+            "mae": 1.6,
+            "bias": 0.1931
+          },
+          "player_rolling4": {
+            "sample_count": 221,
+            "mae": 1.4265,
+            "bias": 0.1437
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 221,
+                "mae": 1.4318,
+                "bias": 0.3469
+              },
+              "positional_mean": {
+                "sample_count": 221,
+                "mae": 1.6,
+                "bias": 0.1931
+              },
+              "player_rolling4": {
+                "sample_count": 221,
+                "mae": 1.4265,
+                "bias": 0.1437
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "10": {
+          "ridge": {
+            "sample_count": 221,
+            "mae": 1.8301,
+            "bias": 0.1546
+          },
+          "positional_mean": {
+            "sample_count": 221,
+            "mae": 1.8763,
+            "bias": -0.0958
+          },
+          "player_rolling4": {
+            "sample_count": 221,
+            "mae": 1.7575,
+            "bias": -0.1836
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 221,
+                "mae": 1.8301,
+                "bias": 0.1546
+              },
+              "positional_mean": {
+                "sample_count": 221,
+                "mae": 1.8763,
+                "bias": -0.0958
+              },
+              "player_rolling4": {
+                "sample_count": 221,
+                "mae": 1.7575,
+                "bias": -0.1836
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "11": {
+          "ridge": {
+            "sample_count": 221,
+            "mae": 1.7559,
+            "bias": -0.0847
+          },
+          "positional_mean": {
+            "sample_count": 221,
+            "mae": 1.9645,
+            "bias": -0.2172
+          },
+          "player_rolling4": {
+            "sample_count": 221,
+            "mae": 1.6753,
+            "bias": -0.3224
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 221,
+                "mae": 1.7559,
+                "bias": -0.0847
+              },
+              "positional_mean": {
+                "sample_count": 221,
+                "mae": 1.9645,
+                "bias": -0.2172
+              },
+              "player_rolling4": {
+                "sample_count": 221,
+                "mae": 1.6753,
+                "bias": -0.3224
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        }
+      }
+    },
+    "4": {
+      "sample_count": 424,
+      "ridge": {
+        "sample_count": 424,
+        "mae": 1.9293,
+        "bias": 0.0315
+      },
+      "positional_mean": {
+        "sample_count": 424,
+        "mae": 2.075,
+        "bias": -0.0764
+      },
+      "player_rolling4": {
+        "sample_count": 424,
+        "mae": 1.7773,
+        "bias": -0.0729
+      },
+      "by_fixture_cardinality": {
+        "single_gameweek": {
+          "ridge": {
+            "sample_count": 424,
+            "mae": 1.9293,
+            "bias": 0.0315
+          },
+          "positional_mean": {
+            "sample_count": 424,
+            "mae": 2.075,
+            "bias": -0.0764
+          },
+          "player_rolling4": {
+            "sample_count": 424,
+            "mae": 1.7773,
+            "bias": -0.0729
+          }
+        },
+        "double_gameweek": {
+          "ridge": {
+            "sample_count": 0,
+            "mae": null,
+            "bias": null
+          },
+          "positional_mean": {
+            "sample_count": 0,
+            "mae": null,
+            "bias": null
+          },
+          "player_rolling4": {
+            "sample_count": 0,
+            "mae": null,
+            "bias": null
+          }
+        }
+      },
+      "beat_both_baselines": false,
+      "by_gameweek": {
+        "4": {
+          "ridge": {
+            "sample_count": 53,
+            "mae": 2.0346,
+            "bias": -0.2266
+          },
+          "positional_mean": {
+            "sample_count": 53,
+            "mae": 2.2875,
+            "bias": -0.2248
+          },
+          "player_rolling4": {
+            "sample_count": 53,
+            "mae": 1.8931,
+            "bias": -0.2956
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 53,
+                "mae": 2.0346,
+                "bias": -0.2266
+              },
+              "positional_mean": {
+                "sample_count": 53,
+                "mae": 2.2875,
+                "bias": -0.2248
+              },
+              "player_rolling4": {
+                "sample_count": 53,
+                "mae": 1.8931,
+                "bias": -0.2956
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "5": {
+          "ridge": {
+            "sample_count": 53,
+            "mae": 1.7726,
+            "bias": 0.1491
+          },
+          "positional_mean": {
+            "sample_count": 53,
+            "mae": 1.8947,
+            "bias": 0.1355
+          },
+          "player_rolling4": {
+            "sample_count": 53,
+            "mae": 1.7453,
+            "bias": 0.1038
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 53,
+                "mae": 1.7726,
+                "bias": 0.1491
+              },
+              "positional_mean": {
+                "sample_count": 53,
+                "mae": 1.8947,
+                "bias": 0.1355
+              },
+              "player_rolling4": {
+                "sample_count": 53,
+                "mae": 1.7453,
+                "bias": 0.1038
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "6": {
+          "ridge": {
+            "sample_count": 53,
+            "mae": 2.1593,
+            "bias": 0.1725
+          },
+          "positional_mean": {
+            "sample_count": 53,
+            "mae": 2.0036,
+            "bias": -0.2698
+          },
+          "player_rolling4": {
+            "sample_count": 53,
+            "mae": 1.9717,
+            "bias": -0.283
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 53,
+                "mae": 2.1593,
+                "bias": 0.1725
+              },
+              "positional_mean": {
+                "sample_count": 53,
+                "mae": 2.0036,
+                "bias": -0.2698
+              },
+              "player_rolling4": {
+                "sample_count": 53,
+                "mae": 1.9717,
+                "bias": -0.283
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "7": {
+          "ridge": {
+            "sample_count": 53,
+            "mae": 1.8268,
+            "bias": -0.1357
+          },
+          "positional_mean": {
+            "sample_count": 53,
+            "mae": 2.1652,
+            "bias": -0.1859
+          },
+          "player_rolling4": {
+            "sample_count": 53,
+            "mae": 1.5566,
+            "bias": -0.2264
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 53,
+                "mae": 1.8268,
+                "bias": -0.1357
+              },
+              "positional_mean": {
+                "sample_count": 53,
+                "mae": 2.1652,
+                "bias": -0.1859
+              },
+              "player_rolling4": {
+                "sample_count": 53,
+                "mae": 1.5566,
+                "bias": -0.2264
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "8": {
+          "ridge": {
+            "sample_count": 53,
+            "mae": 1.799,
+            "bias": 0.3001
+          },
+          "positional_mean": {
+            "sample_count": 53,
+            "mae": 1.9134,
+            "bias": 0.1431
+          },
+          "player_rolling4": {
+            "sample_count": 53,
+            "mae": 1.6792,
+            "bias": 0.217
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 53,
+                "mae": 1.799,
+                "bias": 0.3001
+              },
+              "positional_mean": {
+                "sample_count": 53,
+                "mae": 1.9134,
+                "bias": 0.1431
+              },
+              "player_rolling4": {
+                "sample_count": 53,
+                "mae": 1.6792,
+                "bias": 0.217
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "9": {
+          "ridge": {
+            "sample_count": 53,
+            "mae": 1.8119,
+            "bias": 0.0973
+          },
+          "positional_mean": {
+            "sample_count": 53,
+            "mae": 2.0354,
+            "bias": 0.0683
+          },
+          "player_rolling4": {
+            "sample_count": 53,
+            "mae": 1.6415,
+            "bias": 0.0943
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 53,
+                "mae": 1.8119,
+                "bias": 0.0973
+              },
+              "positional_mean": {
+                "sample_count": 53,
+                "mae": 2.0354,
+                "bias": 0.0683
+              },
+              "player_rolling4": {
+                "sample_count": 53,
+                "mae": 1.6415,
+                "bias": 0.0943
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "10": {
+          "ridge": {
+            "sample_count": 53,
+            "mae": 1.9899,
+            "bias": -0.1243
+          },
+          "positional_mean": {
+            "sample_count": 53,
+            "mae": 2.1101,
+            "bias": -0.1659
+          },
+          "player_rolling4": {
+            "sample_count": 53,
+            "mae": 1.8349,
+            "bias": -0.1085
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 53,
+                "mae": 1.9899,
+                "bias": -0.1243
+              },
+              "positional_mean": {
+                "sample_count": 53,
+                "mae": 2.1101,
+                "bias": -0.1659
+              },
+              "player_rolling4": {
+                "sample_count": 53,
+                "mae": 1.8349,
+                "bias": -0.1085
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        },
+        "11": {
+          "ridge": {
+            "sample_count": 53,
+            "mae": 2.0407,
+            "bias": 0.0195
+          },
+          "positional_mean": {
+            "sample_count": 53,
+            "mae": 2.1897,
+            "bias": -0.1113
+          },
+          "player_rolling4": {
+            "sample_count": 53,
+            "mae": 1.8962,
+            "bias": -0.0849
+          },
+          "by_fixture_cardinality": {
+            "single_gameweek": {
+              "ridge": {
+                "sample_count": 53,
+                "mae": 2.0407,
+                "bias": 0.0195
+              },
+              "positional_mean": {
+                "sample_count": 53,
+                "mae": 2.1897,
+                "bias": -0.1113
+              },
+              "player_rolling4": {
+                "sample_count": 53,
+                "mae": 1.8962,
+                "bias": -0.0849
+              }
+            },
+            "double_gameweek": {
+              "ridge": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "positional_mean": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              },
+              "player_rolling4": {
+                "sample_count": 0,
+                "mae": null,
+                "bias": null
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "generated_at": "2026-11-25T08:14:28.912553+00:00"
+}

@@ -1,0 +1,15 @@
+node_modules/
+android/
+ios/
+app/
+assets/
+components/
+hooks/
+services/
+stores/
+types/
+backend/.venv/
+backend/tests/
+backend/test_backend.py
+backend/reports/
+*.log
